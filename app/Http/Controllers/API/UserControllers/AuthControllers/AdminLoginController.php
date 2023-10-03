@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\UserController\AuthControllers;
+namespace App\Http\Controllers\API\UserControllers\AuthControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Validator;
 class AdminLoginController extends Controller
 {
     // admin user login controller logic
-    public function adminLogin (Request $request){
+    public function adminLogin(Request $request)
+    {
         // validate input
         $validator = Validator::make($request->all(), [
             'email' => 'required',
@@ -35,34 +36,36 @@ class AdminLoginController extends Controller
         // if validation succeeds
         // Authenticate the user
         // if correct credentials
-        if(Auth::attempt([
+        if (Auth::attempt([
             'email' => $request->email,
             'password' => $request->password
-        ])){
+        ])) {
             $user = Auth::user();
             // if user is not admin
-            if(!$user->is_admin){
+            if (!$user->is_admin) {
                 Auth::logout();
                 // send unauthorized in response
                 return response([
                     'message' => 'Unauthorized',
                 ]);
-            }else {
+            } else {
                 // admin user
                 $token = $user->createToken('MyApp')->plainTextToken;
-            // user datils
-            $success['name'] = $user->name;
-            $success['email'] = $user->email;
-            // response
-            $response = [
-                'success' => true,
-                'token' => $token,
-                'data' => $success,
-                'message' => 'Login Successfully',
-            ];
-            // return the response
-            return response()->json($response, 200);
+                // user datils
+                $success['name'] = $user->name;
+                $success['email'] = $user->email;
+                // response
+                $response = [
+                    'success' => true,
+                    'token' => $token,
+                    'data' => $success,
+                    'message' => 'Login Successfully',
+                ];
+                // return the response
+                return response()->json($response, 200);
             }
         }
     }
+
+    
 }
