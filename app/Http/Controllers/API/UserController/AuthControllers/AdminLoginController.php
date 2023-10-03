@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\UserControllers\AuthControllers;
+namespace App\Http\Controllers\API\UserController\AuthControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class UserLoginController extends Controller
+class AdminLoginController extends Controller
 {
-    // user login controller logic
-    public function login (Request $request){
+    // admin user login controller logic
+    public function adminLogin (Request $request){
         // validate input
         $validator = Validator::make($request->all(), [
             'email' => 'required',
@@ -40,8 +40,16 @@ class UserLoginController extends Controller
             'password' => $request->password
         ])){
             $user = Auth::user();
-            // create token
-            $token = $user->createToken('MyApp')->plainTextToken;
+            // if user is not admin
+            if(!$user->is_admin){
+                Auth::logout();
+                // send unauthorized in response
+                return response([
+                    'message' => 'Unauthorized',
+                ]);
+            }else {
+                // admin user
+                $token = $user->createToken('MyApp')->plainTextToken;
             // user datils
             $success['name'] = $user->name;
             $success['email'] = $user->email;
@@ -51,19 +59,10 @@ class UserLoginController extends Controller
                 'token' => $token,
                 'data' => $success,
                 'message' => 'Login Successfully',
-
             ];
             // return the response
             return response()->json($response, 200);
-        } else {
-            $response = [
-                'success' => false,
-                'message' => 'Unauthorized',
-            ];
-
-            $token = $user->createToken('token')->plainTextToken;
-            // return the response
-            return response()->json($response);
+            }
         }
     }
 }

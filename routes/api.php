@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\UserController\AuthControllers\AdminLoginController;
 use App\Http\Controllers\API\UserControllers\AuthControllers\RegisterUserController;
 use App\Http\Controllers\API\UserControllers\AuthControllers\UserLoginController;
 use Illuminate\Http\Request;
@@ -24,3 +25,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [RegisterUserController::class, 'register']);
 // User login route
 Route::post('/login', [UserLoginController::class, 'login']);
+// Admin User Login
+Route::post('/admin/login', [AdminLoginController::class, 'adminLogin']);

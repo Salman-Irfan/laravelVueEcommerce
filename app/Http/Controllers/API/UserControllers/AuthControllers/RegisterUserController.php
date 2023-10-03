@@ -40,7 +40,7 @@ class RegisterUserController extends Controller
         // create the user
         $user = User::create($input);
         // create success message
-        $success['token'] = $user->createToken('MyApp')->plainTextToken;
+        
         // user details
         $success['name'] = $user->name;
         $success['email'] = $user->email;
