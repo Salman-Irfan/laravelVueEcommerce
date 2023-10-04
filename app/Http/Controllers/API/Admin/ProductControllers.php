@@ -6,6 +6,13 @@ namespace App\Http\Controllers\API\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProductListResource;
+use App\Http\Resources\ProductResource;
+use App\Http\Requests\ProductRequest;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class ProductControllers extends Controller
 {
