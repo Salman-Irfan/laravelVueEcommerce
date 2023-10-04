@@ -22,6 +22,7 @@ class ProductControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // get all products
     public function index()
     {
         $perPage = request('per_page', 10);
