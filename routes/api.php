@@ -19,25 +19,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-// login middleware
+// login middleware - get logged in user on the basis of token
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// 'admin' middleware
-Route::middleware(['admin'])->group(function () {
-    // Define your admin-only API routes here
 
-    // Route::get('/admin/dashboard', 'AdminController@dashboard');
-    // Route::post('/admin/create', 'AdminController@create');
-    // Route to list all products (use the 'index' method of the ProductControllers controller)
-    
-    // Add more admin routes as needed
-});
-
-// This specific route is protected by the 'admin' middleware
-
-// Route::get('/admin/specific-route', 'AdminController@specificRoute')->middleware('admin');
 Route::get('/admin/products', [ProductControllers::class, 'index']);
 
 // User registration route
